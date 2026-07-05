@@ -21,4 +21,14 @@ final class Result
     {
         return new self(false, null, $error);
     }
+
+    public function isSuccess(): bool
+    {
+        return $this->success;
+    }
+
+    public function isFailure(): bool
+    {
+        return !$this->success;
+    }
 }

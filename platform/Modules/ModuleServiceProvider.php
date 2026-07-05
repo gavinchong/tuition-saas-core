@@ -8,6 +8,10 @@ use Illuminate\Support\ServiceProvider;
 use Platform\Foundation\EventBus;
 use Platform\Foundation\ModuleManager;
 use Platform\Foundation\ModuleRepository;
+use Platform\Foundation\SimpleCommandBus;
+use Platform\Foundation\SimpleQueryBus;
+use Platform\Shared\Application\CommandBus;
+use Platform\Shared\Application\QueryBus;
 
 class ModuleServiceProvider extends ServiceProvider
 {
@@ -17,6 +21,9 @@ class ModuleServiceProvider extends ServiceProvider
         $this->app->singleton(ModuleManager::class);
 
         $this->app->singleton(EventBus::class);
+
+        $this->app->singleton(CommandBus::class, SimpleCommandBus::class);
+        $this->app->singleton(QueryBus::class, SimpleQueryBus::class);
 
         $this->app->bind(
             \Platform\Shared\Infrastructure\EventDispatcher::class,
