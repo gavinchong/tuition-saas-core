@@ -41,7 +41,10 @@
             "Platform\\": "platform/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "platform/Tenant/Support/tenant.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

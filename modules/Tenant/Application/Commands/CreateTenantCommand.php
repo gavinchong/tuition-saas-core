@@ -9,6 +9,7 @@ use Platform\Shared\Application\Command;
 final class CreateTenantCommand extends Command
 {
     public function __construct(
-        public string $name
+        public string $name,
+        public ?string $ownerId = null
     ) {}
 }
