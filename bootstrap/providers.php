@@ -3,5 +3,5 @@
 return [
     App\Providers\AppServiceProvider::class,
     App\Providers\VoltServiceProvider::class,
-    Platform\Providers\PlatformServiceProvider::class,
+    Platform\Modules\ModuleServiceProvider::class,
 ];
