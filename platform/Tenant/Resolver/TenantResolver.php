@@ -10,25 +10,15 @@ final class TenantResolver
 {
     public function resolve(): void
     {
-        // 1. Header-based (API SaaS style)
         $tenantId = request()->header('X-Tenant-ID');
+        $orgId = request()->header('X-Org-ID');
+        $branchId = request()->header('X-Branch-ID');
 
-        // 2. fallback: subdomain (future upgrade)
-        $host = request()->getHost();
-
-        if ($tenantId) {
-            TenantContext::set([
-                'id' => $tenantId,
-                'source' => 'header',
-            ]);
-
-            return;
-        }
-
-        // fallback demo tenant (safe default for dev)
         TenantContext::set([
-            'id' => 'default',
-            'source' => 'fallback',
+            'tenant_id' => $tenantId ?? 'default',
+            'organization_id' => $orgId ?? 'org-default',
+            'branch_id' => $branchId ?? 'branch-default',
+            'source' => 'headers',
         ]);
     }
 }

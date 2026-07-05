@@ -14,6 +14,6 @@ it('sets tenant context from header', function () {
 
     $response->assertOk()
         ->assertJson([
-            'id' => 'tenant-123'
+            'tenant_id' => 'tenant-123',
         ]);
 });

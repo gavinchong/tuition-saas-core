@@ -13,7 +13,9 @@ final class CreateTenantHandler
     public function handle(CreateTenantCommand $command): Result
     {
         return Result::ok([
-            'tenant_id' => TenantContext::id(),
+            'tenant_id' => TenantContext::tenantId(),
+            'organization_id' => TenantContext::organizationId(),
+            'branch_id' => TenantContext::branchId(),
             'created_id' => uniqid(),
             'name' => $command->name,
         ]);
