@@ -19,15 +19,18 @@ final class SimpleCommandBus implements CommandBus
 
         $handler = $this->container->make($handlerClass);
 
-        return $handler->handle($command);
+        $pipeline = $this->container->make(SimplePipeline::class);
+
+        return $pipeline
+            ->through([
+                \Platform\Foundation\Pipes\ValidationPipe::class,
+                \Platform\Foundation\Pipes\AuthorizationPipe::class,
+            ])
+            ->execute($command, fn ($command) => $handler->handle($command));
     }
 
     private function resolveHandler(object $command): string
     {
-        return str_replace(
-            'Command',
-            'Handler',
-            get_class($command)
-        );
+        return str_replace('Command', 'Handler', get_class($command));
     }
 }
