@@ -12,12 +12,29 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->append(\App\Http\Middleware\ForceJsonResponse::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*'),
         );
+
+        $exceptions->render(function (Throwable $e, $request) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'error' => [
+                        'message' => $e->getMessage(),
+                        'type' => class_basename($e),
+                    ]
+                ], match (true) {
+                    $e instanceof InvalidArgumentException => 422,
+                    default => 500,
+                });
+            }
+
+            return null;
+        });
     })
     ->withProviders(require __DIR__.'/providers.php')
     ->create();
